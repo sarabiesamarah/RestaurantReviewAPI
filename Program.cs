@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RestaurantReviewAPI.Data;
+using RestaurantReviewAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,11 +9,28 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Register the ApplicationDbContext with an in-memory database
+// Register SQLite database
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseInMemoryDatabase("RestaurantDB"));
+    options.UseSqlite("Data Source=restaurant.db"));
 
 var app = builder.Build();
+
+// Seed the database
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    context.Database.EnsureCreated();
+
+    // Seed sample data
+    if (!context.Restaurants.Any())
+    {
+        context.Restaurants.AddRange(
+            new Restaurant { Name = "Test Restaurant", Location = "NYC", CuisineType = "Italian", Rating = 4.5 },
+            new Restaurant { Name = "Another Restaurant", Location = "London", CuisineType = "British", Rating = 4.0 }
+        );
+        context.SaveChanges();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

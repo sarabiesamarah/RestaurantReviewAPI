@@ -15,19 +15,16 @@ public class RestaurantController : ControllerBase
         _context = context;
     }
 
-    // GET: api/Restaurant
     [HttpGet]
     public IActionResult GetRestaurants()
     {
-        var restaurants = _context.Restaurants.ToList();
-        return Ok(restaurants);
+        return Ok(_context.Restaurants.ToList());
     }
 
-    // GET: api/Restaurant/{id}
     [HttpGet("{id}")]
     public IActionResult GetRestaurantById(int id)
     {
-        var restaurant = _context.Restaurants.FirstOrDefault(r => r.Id == id);
+        var restaurant = _context.Restaurants.Find(id);
         if (restaurant == null)
         {
             return NotFound();
@@ -35,7 +32,6 @@ public class RestaurantController : ControllerBase
         return Ok(restaurant);
     }
 
-    // POST: api/Restaurant
     [HttpPost]
     public IActionResult AddRestaurant(Restaurant restaurant)
     {
@@ -44,11 +40,10 @@ public class RestaurantController : ControllerBase
         return CreatedAtAction(nameof(GetRestaurantById), new { id = restaurant.Id }, restaurant);
     }
 
-    // PUT: api/Restaurant/{id}
     [HttpPut("{id}")]
     public IActionResult UpdateRestaurant(int id, Restaurant updatedRestaurant)
     {
-        var restaurant = _context.Restaurants.FirstOrDefault(r => r.Id == id);
+        var restaurant = _context.Restaurants.Find(id);
         if (restaurant == null)
         {
             return NotFound();
@@ -63,11 +58,10 @@ public class RestaurantController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/Restaurant/{id}
     [HttpDelete("{id}")]
     public IActionResult DeleteRestaurant(int id)
     {
-        var restaurant = _context.Restaurants.FirstOrDefault(r => r.Id == id);
+        var restaurant = _context.Restaurants.Find(id);
         if (restaurant == null)
         {
             return NotFound();
