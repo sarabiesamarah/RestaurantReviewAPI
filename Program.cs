@@ -21,16 +21,16 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     context.Database.EnsureCreated();
 
-    // Seed sample data
-    if (!context.Restaurants.Any())
-    {
-        context.Restaurants.AddRange(
-            new Restaurant { Name = "Test Restaurant", Location = "NYC", CuisineType = "Italian", Rating = 4.5 },
-            new Restaurant { Name = "Another Restaurant", Location = "London", CuisineType = "British", Rating = 4.0 }
-        );
-        context.SaveChanges();
-    }
+if (!context.Restaurants.Any())
+{
+    context.Restaurants.AddRange(
+        new Restaurant { Name = "Test Restaurant", Location = "NYC", Cuisine = "Italian", Rating = 4.5 },
+        new Restaurant { Name = "Another Restaurant", Location = "London", Cuisine = "British", Rating = 4.0 }
+    );
+    context.SaveChanges();
 }
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -44,4 +44,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+    app.Run();
+}

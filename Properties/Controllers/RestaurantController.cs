@@ -51,7 +51,7 @@ public class RestaurantController : ControllerBase
 
         restaurant.Name = updatedRestaurant.Name;
         restaurant.Location = updatedRestaurant.Location;
-        restaurant.CuisineType = updatedRestaurant.CuisineType;
+        restaurant.Cuisine = updatedRestaurant.Cuisine;
         restaurant.Rating = updatedRestaurant.Rating;
 
         _context.SaveChanges();
